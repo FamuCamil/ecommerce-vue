@@ -1,9 +1,7 @@
 <template>
-  <div class="home">
-    <h1>Home</h1>
-    <button class="ui primary button">Save</button>
-    <button class="ui button">Discard</button>
-  </div>
+  <BasicLayout>
+    <h2>Homeview</h2>
+  </BasicLayout>
 </template>
 
 <script>
