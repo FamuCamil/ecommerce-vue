@@ -8,12 +8,16 @@
             src="../assets/logo.png"
             alt="Ecommerce"
           />
-          <p>Categorías</p>
+          <template v-for="category in categories" :key="category.id">
+            <router-link class="item" :to="category.slug">
+              {{ category.title }}
+            </router-link>
+          </template>
         </router-link>
       </div>
       <div class="right menu">
         <router-link class="item" to="/login" v-if="!token">
-          Iniciar sesión - Video 115</router-link
+          Iniciar sesión</router-link
         >
         <template v-if="token">
           <router-link class="item" to="/orders">Pedidos</router-link>
@@ -31,10 +35,19 @@
 
 <script>
 import { getTokenApi, deleteTokenApi } from "@/api/token";
+import { onMounted, ref } from "vue";
+import { getCategoriesApi } from "@/api/category";
+
 export default {
   name: "Menu",
   setup() {
+    let categories = ref(null);
     const token = getTokenApi();
+
+    onMounted(async () => {
+      const response = await getCategoriesApi();
+      categories.value = response.data;
+    });
 
     const logout = () => {
       deleteTokenApi();
@@ -43,6 +56,7 @@ export default {
     return {
       token,
       logout,
+      categories,
     };
   },
 };
